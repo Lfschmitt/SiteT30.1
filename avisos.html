@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T30.1 — Avisos</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Mural da T30.1</p>
+        <h1>Avisos</h1>
+        <p>Acompanhe as datas de provas, entregas de trabalhos e recados importantes para a turma.</p>
+      </div>
+    </section>
+
+    <section class="avisos-section">
+      <div class="section-container">
+        <h2 class="section-title">Próximos Eventos</h2>
+        <div class="section-divider"></div>
+        
+        <div class="avisos-grid" id="avisosGrid">
+          <p id="loadingMessage" style="text-align: center; opacity: 0.7; padding: 2rem;">Carregando avisos da planilha...</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer"></div>
+
+    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+    // Link direto da sua publicação
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRV82EoR8cqthSYSblTOn5OhbS-eofQkoEhT4Yl9NenSW7eafWJsKSCUqbq1Rwo_AIuWPNxoZNkwky_/pub?output=csv'; 
+
+    const grid = document.getElementById('avisosGrid');
+    const loading = document.getElementById('loadingMessage');
+
+    async function carregarAvisos() {
+        try {
+            // Link direto, mas forçando o Google a não mandar cabeçalhos de cache agressivos
+            const finalURL = sheetURL + '&t=' + new Date().getTime();
+            
+            const resposta = await fetch(finalURL);
+            
+            if (!resposta.ok) {
+                throw new Error('Não conseguiu acessar o Google Sheets diretamente');
+            }
+            
+            const dadosTexto = await resposta.text();
+            console.log("Chegou texto:", dadosTexto); // Veja se aparece no F12
+
+            Papa.parse(dadosTexto, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    console.log("Objetos convertidos:", results.data);
+                    renderizarAvisos(results.data);
+                }
+            });
+        } catch (error) {
+            console.error("Erro no fetch direto, tentando alternativa...", error);
+            // Se o direto falhar, tentamos uma alternativa mais simples de proxy
+            const fallbackURL = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(sheetURL)}`;
+            const res = await fetch(fallbackURL);
+            const texto = await res.text();
+            Papa.parse(texto, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    renderizarAvisos(results.data);
+                }
+            });
+        }
+    }
+
+    function renderizarAvisos(eventos) {
+        grid.innerHTML = ''; 
+
+        if (eventos.length === 0) {
+        grid.innerHTML = '<p style="text-align: center;">Nenhum aviso encontrado na planilha.</p>';
+        return;
+        }
+
+        eventos.forEach(evento => {
+        // O trim() remove espaços extras que o Google às vezes coloca
+        const data = evento['Data']?.trim() || '---';
+        const materia = evento['Materia']?.trim() || 'Geral';
+        const descricao = evento['Descricao']?.trim() || '';
+        const tipo = evento['Tipo']?.trim() || 'Aviso';
+
+        grid.innerHTML += `
+            <div class="aviso-card">
+            <div class="aviso-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <strong class="aviso-data" style="color: #004481;">${data}</strong>
+                <span class="aviso-tipo" style="font-size: 0.7rem; background: #e0e0e0; padding: 2px 8px; border-radius: 10px; text-transform: uppercase;">${tipo}</span>
+            </div>
+            <div class="aviso-body">
+                <h3 style="margin: 8px 0; font-size: 1.1rem;">${materia}</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: #555;">${descricao}</p>
+            </div>
+            </div>
+        `;
+        });
+    }
+
+    carregarAvisos();
+    </script>
+</body>
+</html>
