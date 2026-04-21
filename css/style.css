@@ -1,0 +1,539 @@
+/* ===== VARIABLES ===== */
+:root {
+  --blue-dark: #1e3a5f;
+  --blue-mid: #2563eb;
+  --blue-light: #60a5fa;
+  --gray-dark: #374151;
+  --gray-mid: #6b7280;
+  --gray-light: #f3f4f6;
+  --black: #111827;
+  --white: #ffffff;
+  --border: #d1d5db;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --radius: 8px;
+  --transition: 0.25s ease;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--black);
+  background: var(--white);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--blue-dark);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.nav-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+
+.nav-brand span {
+  color: var(--blue-light);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+/* ===== MAIN CONTENT ===== */
+main {
+  flex: 1;
+  padding-top: 64px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  background: var(--blue-dark);
+  color: var(--white);
+  padding: 5rem 1.5rem;
+  text-align: center;
+  overflow: hidden;
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Uncomment and set src in HTML to enable background image */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  /* background-image: url('../assets/images/hero.jpg'); */
+}
+
+.hero-content {
+  position: relative;
+  max-width: 700px;
+}
+
+.hero-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ===== PAGE HEADER (non-hero pages) ===== */
+.page-header {
+  background: var(--blue-dark);
+  color: var(--white);
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+}
+
+.page-header p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+/* ===== SECTION ===== */
+section {
+  padding: 5rem 1.5rem;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 0.5rem;
+}
+
+.section-divider {
+  width: 48px;
+  height: 4px;
+  background: var(--blue-mid);
+  border-radius: 2px;
+  margin-bottom: 2.5rem;
+}
+
+/* ===== HISTORIA SECTION ===== */
+.historia-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.historia-text p {
+  color: var(--gray-dark);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.historia-image {
+  background: var(--gray-light);
+  border-radius: var(--radius);
+  border: 2px dashed var(--border);
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-mid);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* ===== ALUNOS SECTION ===== */
+.alunos-section {
+  background: var(--gray-light);
+}
+
+.alunos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.aluno-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--blue-mid);
+  transition: var(--transition);
+}
+
+.aluno-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.aluno-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--blue-dark);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 0 auto 0.75rem;
+}
+
+.aluno-card h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+/* ===== CALENDARIO ===== */
+.calendar-wrapper {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  background: var(--blue-dark);
+  color: var(--white);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-header h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.cal-nav-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: var(--white);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--gray-light);
+  border-bottom: 1px solid var(--border);
+}
+
+.calendar-weekdays span {
+  text-align: center;
+  padding: 0.6rem 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gray-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0.5rem;
+  gap: 2px;
+}
+
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+  cursor: default;
+  transition: var(--transition);
+}
+
+.cal-day.other-month {
+  color: var(--border);
+}
+
+.cal-day.today {
+  background: var(--blue-mid);
+  color: var(--white);
+  font-weight: 700;
+}
+
+.cal-day.has-event {
+  position: relative;
+}
+
+.cal-day.has-event::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--blue-light);
+}
+
+/* ===== PROFESSORES ===== */
+.professores-section {
+  background: var(--gray-light);
+}
+
+.professores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.professor-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--blue-mid);
+  transition: var(--transition);
+}
+
+.professor-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.professor-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 0.25rem;
+}
+
+.professor-disciplina {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--blue-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+.professor-card p {
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+  line-height: 1.5;
+}
+
+/* ===== MAPA FALTA PLACEHOLDER ===== */
+.placeholder-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1.5rem;
+  background: var(--gray-light);
+}
+
+.placeholder-box {
+  text-align: center;
+  color: var(--gray-mid);
+}
+
+.placeholder-box svg {
+  margin-bottom: 1.5rem;
+  opacity: 0.4;
+}
+
+.placeholder-box h2 {
+  font-size: 1.5rem;
+  color: var(--gray-dark);
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-box p {
+  font-size: 0.95rem;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--black);
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  padding: 1.75rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+footer strong {
+  color: var(--white);
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--blue-dark);
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.25rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .historia-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .alunos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+
+  .professores-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 3rem 1rem;
+  }
+
+  .alunos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cal-day {
+    font-size: 0.78rem;
+  }
+}
