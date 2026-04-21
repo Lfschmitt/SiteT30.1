@@ -5,8 +5,11 @@ const NAV_HTML = `
     <a href="index.html" class="nav-brand">T30<span>.1</span></a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Sobre a Turma</a></li>
-      <li><a href="calendario.html">Calendário & Professores</a></li>
-      <li><a href="mapa-falta.html">Mapa Falta</a></li>
+      <li><a href="calendario.html">Calendário</a></li>
+      <li><a href="mapa-falta.html">Mapa de Faltas</a></li>
+      <li><a href="noticias.html">Notícias</a></li>
+      <li><a href="professores.html">Professores</a></li>
+      <li><a href="reclame-aqui.html">Reclame Aqui</a></li>
     </ul>
     <div class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
