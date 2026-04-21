@@ -70,16 +70,79 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Gera os 45 cards de alunos
+      // Gera os 45 cards de alunos
+    const alunos = [
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      { nome: "Ana Silva",    foto: ""    },
+      
+    ];
+
+    function iniciais(nome) {
+      return nome.split(" ")
+        .filter(p => p.length > 1)
+        .slice(0, 2)
+        .map(p => p[0])
+        .join("")
+        .toUpperCase();
+    }
+
     const grid = document.getElementById('alunosGrid');
-    for (let i = 1; i <= 45; i++) {
-      const initials = i < 10 ? `0${i}` : `${i}`;
+
+    alunos.forEach((aluno, index) => {
+      const num = String(index + 1).padStart(2, '0');
       grid.innerHTML += `
         <div class="aluno-card">
-          <div class="aluno-avatar">${initials}</div>
-          <h3>Aluno ${i}</h3>
+          ${aluno.foto
+            ? `<img class="aluno-avatar" src="${aluno.foto}" alt="Foto de ${aluno.nome}"
+                onerror="this.outerHTML='<div class=\\'aluno-avatar\\'>${iniciais(aluno.nome)}</div>'">`
+            : `<div class="aluno-avatar">${iniciais(aluno.nome)}</div>`
+          }
+          <h3>${aluno.nome}</h3>
         </div>`;
-    }
+    });
   </script>
 
 </body>
