@@ -5,7 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>T30.1 — Avisos</title>
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    .aviso-card {
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-left: 6px solid #2B4365; 
+        border-radius: 8px;
+        margin-bottom: 16px; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+        transition: transform 0.2s, box-shadow 0.2s;
+        overflow: hidden; 
+    }
+
+    .aviso-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    .aviso-header{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        border-bottom: 1px solid #e5e7eb;
+        background-color: #f8fafc;
+    }
+
+    .aviso-header strong {
+        color: #1e293b;
+        font-size: 0.95rem;
+    }
+
+    .aviso-header h3 {
+        margin: 0;
+        color: #2B4365;
+        font-size: 1.1rem;
+    }
+
+    .aviso-tipo {
+        justify-self: end; 
+        background-color: #e0e7ff; 
+        color: #3730a3; 
+        padding: 4px 12px;
+        border-radius: 20px; 
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .aviso-body{
+        padding: 16px 20px; 
+        background-color: #ffffff;
+    }
+
+    .aviso-body p {
+        margin: 0;
+        color: #475569; 
+        line-height: 1.5; 
+    }
+  </style>
 </head>
+
 <body>
 
   <div id="navbar"></div>
@@ -95,19 +156,21 @@
         // O trim() remove espaços extras que o Google às vezes coloca
         const data = evento['Data']?.trim() || '---';
         const materia = evento['Materia']?.trim() || 'Geral';
-        const descricao = evento['Descricao']?.trim() || '';
         const tipo = evento['Tipo']?.trim() || 'Aviso';
+        const horario = evento['Horario']?.trim() || 'Não definido';
+        const descricao = evento['Descricao']?.trim() || '';
 
         grid.innerHTML += `
             <div class="aviso-card">
-            <div class="aviso-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <strong class="aviso-data" style="color: #004481;">${data}</strong>
-                <span class="aviso-tipo" style="font-size: 0.7rem; background: #e0e0e0; padding: 2px 8px; border-radius: 10px; text-transform: uppercase;">${tipo}</span>
-            </div>
-            <div class="aviso-body">
-                <h3 style="margin: 8px 0; font-size: 1.1rem;">${materia}</h3>
-                <p style="margin: 0; font-size: 0.9rem; color: #555;">${descricao}</p>
-            </div>
+                <div class="aviso-header">
+                    <strong>${data}</strong>
+                    <h3>${materia}</h3>
+                    <strong>${horario}</strong>
+                    <span class="aviso-tipo">${tipo}</span>
+                </div>
+                <div class="aviso-body">
+                    <p>${descricao}</p>
+                </div>
             </div>
         `;
         });
