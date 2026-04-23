@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T30.1 — Reclame Aqui</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="navbar"></div>
+
+  <main>
+
+    <div class="page-header">
+      <h1>Reclame Aqui</h1>
+      <p>Envie sua reclamação ou sugestão — sua voz importa</p>
+    </div>
+
+    <section>
+      <div class="section-container">
+        <h2 class="section-title">Enviar Mensagem</h2>
+        <div class="section-divider"></div>
+        <div class="form-container">
+          <form id="reclameForm" novalidate>
+
+            <div class="form-group">
+              <label for="nome">Nome <span class="form-optional">(opcional)</span></label>
+              <input type="text" id="nome" name="nome" class="form-control" placeholder="Seu nome" />
+            </div>
+
+            <div class="form-group">
+              <label for="categoria">Categoria <span class="form-required">*</span></label>
+              <select id="categoria" name="categoria" class="form-control" required>
+                <option value="" disabled selected>Selecione uma categoria</option>
+                <option value="Reclamação">Reclamação</option>
+                <option value="Sugestão">Sugestão</option>
+                <option value="Elogio">Elogio</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="assunto">Assunto <span class="form-required">*</span></label>
+              <input type="text" id="assunto" name="assunto" class="form-control" placeholder="Resumo do assunto" required />
+            </div>
+
+            <div class="form-group">
+              <label for="mensagem">Mensagem <span class="form-required">*</span></label>
+              <textarea id="mensagem" name="mensagem" class="form-control" placeholder="Descreva sua mensagem com detalhes..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Enviar</button>
+            <div class="form-feedback" id="formFeedback"></div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Cole aqui a URL do seu Google Apps Script após publicá-lo como Web App
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGIlZXADiRjqVFZQVo5xCNyWRGfRTmmbqpjUhtcGZyUlzRipnNH-UXLF1r2_83Velq-g/exec';
+    // ID da planilha onde as respostas serão salvas
+    const SHEET_ID = '1NMdFBmpz2OqX3W7hoez1B3pilpkEdOXnpfHiI2phLjI';
+
+    const form = document.getElementById('reclameForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('formFeedback');
+
+    function showFeedback(type, msg) {
+      feedback.className = `form-feedback ${type}`;
+      feedback.textContent = msg;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const categoria = document.getElementById('categoria').value;
+      const assunto = document.getElementById('assunto').value.trim();
+      const mensagem = document.getElementById('mensagem').value.trim();
+
+      if (!categoria || !assunto || !mensagem) {
+        showFeedback('error', 'Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+      feedback.className = 'form-feedback';
+
+      const payload = {
+        nome: document.getElementById('nome').value.trim() || 'Anônimo',
+        categoria,
+        assunto,
+        mensagem,
+        timestamp: new Date().toISOString(),
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams(payload),
+        });
+        showFeedback('success', 'Mensagem enviada com sucesso! Obrigado pelo feedback.');
+        form.reset();
+      } catch {
+        showFeedback('error', 'Erro ao enviar. Verifique sua conexão e tente novamente.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar';
+      }
+    });
+  </script>
+
+</body>
+</html>
