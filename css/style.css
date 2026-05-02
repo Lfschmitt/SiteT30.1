@@ -518,30 +518,63 @@ section {
 }
 
 /* ===== NOTÍCIAS ===== */
-.noticias-grid {
+
+/* Layout de duas colunas */
+.noticias-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 70fr 30fr;
+  gap: 2rem;
+  align-items: start;
 }
 
-.noticia-card {
+.noticias-col-main,
+.noticias-col-side {
+  min-width: 0;
+}
+
+/* Card painel (container de notícias / avisos) */
+.painel-card {
   background: var(--white);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+}
+
+.painel-card-title h2 {
+  font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 0.5rem;
+}
+
+.painel-card--avisos {
+  border-top: 4px solid var(--blue-mid);
+}
+
+/* Cards individuais de notícia */
+.noticia-card {
+  background: var(--gray-light);
+  border-radius: var(--radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: var(--transition);
+  margin-bottom: 1.25rem;
+}
+
+.noticia-card:last-child {
+  margin-bottom: 0;
 }
 
 .noticia-card:hover {
   box-shadow: var(--shadow-lg);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
+
 
 .noticia-card-header {
   background: var(--blue-dark);
-  padding: 0.75rem 1.25rem;
+  padding: 0.6rem 1.25rem;
 }
 
 .noticia-categoria {
@@ -575,6 +608,39 @@ section {
 
 .noticia-resumo {
   font-size: 0.9rem;
+  color: var(--gray-dark);
+  line-height: 1.5;
+}
+
+/* Cards de aviso */
+.aviso-card {
+  border-left: 3px solid var(--blue-mid);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--gray-light);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.aviso-card:last-child {
+  margin-bottom: 0;
+}
+
+.aviso-data {
+  font-size: 0.75rem;
+  color: var(--gray-mid);
+  margin-bottom: 0.25rem;
+}
+
+.aviso-titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+
+.aviso-descricao {
+  font-size: 0.85rem;
   color: var(--gray-dark);
   line-height: 1.5;
 }
@@ -726,6 +792,10 @@ footer strong {
   }
 
   .professores-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .noticias-layout {
     grid-template-columns: 1fr;
   }
 }
