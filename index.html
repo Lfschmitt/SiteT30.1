@@ -70,16 +70,78 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Gera os 45 cards de alunos
+
+      const alunos = [
+        { nome: "Andre Borges Paletta",                      foto: "fotos/ANDRE BORGES PALETTA.jpg" },
+        { nome: "Arley Kahue Valeriano da Silva",            foto: "fotos/ARLEY KAHUE VALERIANO DA SILVA.jpg" },
+        { nome: "Arthur Viana de Sousa",                     foto: "fotos/ARTHUR VIANA DE SOUSA.jpg" },
+        { nome: "Artur Videira de Oliveira",                 foto: "fotos/ARTUR VIDEIRA DE OLIVEIRA.jpg" },
+        { nome: "Caio Henrique Silveira Ellery",             foto: "fotos/CAIO HENRIQUE SILVEIRA ELLERY.jpg" },
+        { nome: "Caio Lazoski Pagliarini",                   foto: "fotos/CAIO LAZOSKI PAGLIARINI.jpg" },
+        { nome: "Cesar Augusto Noronha e Sousa Junior",      foto: "fotos/CESAR AUGUSTO NORONHA E SOUSA JUNIOR.jpg" },
+        { nome: "Enzo de Lima Xavier",                       foto: "fotos/ENZO DE LIMA XAVIER.jpg" },
+        { nome: "Enzo Romanelli Celestino",                  foto: "fotos/ENZO ROMANELLI CELESTINO.jpg" },
+        { nome: "Gabriel Altoe Batista",                     foto: "fotos/GABRIEL ALTOE BATISTA.jpg" },
+        { nome: "Gabriel Mendes Lopes Ribeiro",              foto: "fotos/GABRIEL MENDES LOPES RIBEIRO.jpg" },
+        { nome: "Gabriel Rosenburg Furlani de Oliveira",     foto: "fotos/GABRIEL ROSENBURG FURLANI DE OLIVEIRA.jpg" },
+        { nome: "Gabriel Toniolo Conte",                     foto: "fotos/GABRIEL TONIOLO CONTE.jpg" },
+        { nome: "Henrique Segala de Moura",                  foto: "fotos/HENRIQUE SEGALA DE MOURA.jpg" },
+        { nome: "Henry Vieira Bidinotto",                    foto: "fotos/HENRY VIEIRA BIDINOTTO.jpg" },
+        { nome: "Igor Braga Weyne da Cunha",                 foto: "fotos/IGOR BRAGA WEYNE DA CUNHA.jpg" },
+        { nome: "Joao Marcos Ganzaroli Marques",             foto: "fotos/JOAO MARCOS GANZAROLI MARQUES.jpg" },
+        { nome: "Joao Pedro Santos de Oliveira",             foto: "fotos/JOAO PEDRO SANTOS DE OLIVEIRA.jpg" },
+        { nome: "Joao Victor Agamenon Correa de Souza",      foto: "fotos/JOAO VICTOR AGAMENON CORREA DE SOUZA.jpg" },
+        { nome: "Joao Vitor de Melo Silva",                  foto: "fotos/JOAO VITOR DE MELO SILVA.jpg" },
+        { nome: "Joao Vitor Malha Rodrigues",                foto: "fotos/JOAO VITOR MALHA RODRIGUES.jpg" },
+        { nome: "Joao Vitor Paiva Marques",                  foto: "fotos/JOAO VITOR PAIVA MARQUES.jpg" },
+        { nome: "Lucas da Silva Oliveira Resende",           foto: "fotos/LUCAS DA SILVA OLIVEIRA RESENDE.jpg" },
+        { nome: "Lucas Muniz Ferreira",                      foto: "fotos/LUCAS MUNIZ FERREIRA.jpg" },
+        { nome: "Lucas Sekiguchi Crisantemo",                foto: "fotos/LUCAS SEKIGUCHI CRISANTEMO.jpg" },
+        { nome: "Mateus Costa Medeiros",                     foto: "fotos/MATEUS COSTA MEDEIROS.jpg" },
+        { nome: "Mikaele Alves Ferreira",                    foto: "fotos/MIKAELE ALVES FERREIRA.jpg" },
+        { nome: "Murilo Martins Peraça",                     foto: "fotos/MURILO MARTINS PERACA.jpeg" },
+        { nome: "Nicholas Ramos Fernandes",                  foto: "fotos/NICHOLAS RAMOS FERNANDES.jpg" },
+        { nome: "Paulo Victor Mendes de Almeida",            foto: "fotos/PAULO VICTOR MENDES DE ALMEIDA.jpg" },
+        { nome: "Pedro Lucas Oliveira Mendes",               foto: "fotos/PEDRO LUCAS OLIVEIRA MENDES.jpg" },
+        { nome: "Pedro Vitor Lutke",                         foto: "fotos/PEDRO VITOR LUTKE.jpg" },
+        { nome: "Rafael Leite Villar",                       foto: "fotos/RAFAEL LEITE VILLAR.jpg" },
+        { nome: "Ramon da Silva Pereira",                    foto: "fotos/RAMON DA SILVA PEREIRA.jpg" },
+        { nome: "Thiago Costa Torres",                       foto: "fotos/THIAGO COSTA TORRES.jpg" },
+        { nome: "Victor Veronese Rodrigues",                 foto: "fotos/VICTOR VERONESE RODRIGUES.jpg" },
+        { nome: "Victor Vieira Monteiro",                    foto: "fotos/VICTOR VIEIRA MONTEIRO.jpg" },
+        { nome: "Vitor Artur Rodrigues de Jesus Dorneles",   foto: "fotos/VITOR ARTUR RODRIGUES DE JESUS DORNELES.jpg" },
+        { nome: "Marcella Neves Boccardo Lanz",              foto: "fotos/MARCELLA NEVES BOCCARDO LANZ.jpg" },
+        { nome: "Naim Bannwart",                             foto: "fotos/NAIM BANNWART.jpg" },
+        { nome: "Andre Fraga Ferreira",                      foto: "fotos/ANDRE FRAGA FERREIRA.jpg" },
+        { nome: "Joao Gabriel Nunes Santana",                foto: "fotos/JOAO GABRIEL NUNES SANTANA.jpg" },
+        { nome: "Jonathan Vinicius de Sousa Queiroz",        foto: "fotos/JONATHAN VINICIUS DE SOUSA QUEIROZ.jpg" },
+        { nome: "Jose Ricardo Sugai Wrege",                  foto: "fotos/JOSE RICARDO SUGAI WREGE.jpg" },
+        { nome: "Rafael Antonio de Souza Cortes",            foto: "fotos/RAFAEL ANTONIO DE SOUZA CORTES.jpg" },
+      ];
+      
+    function iniciais(nome) {
+      return nome.split(" ")
+        .filter(p => p.length > 1)
+        .slice(0, 2)
+        .map(p => p[0])
+        .join("")
+        .toUpperCase();
+    }
+
     const grid = document.getElementById('alunosGrid');
-    for (let i = 1; i <= 45; i++) {
-      const initials = i < 10 ? `0${i}` : `${i}`;
+
+    alunos.forEach((aluno, index) => {
+      const num = String(index + 1).padStart(2, '0');
       grid.innerHTML += `
         <div class="aluno-card">
-          <div class="aluno-avatar">${initials}</div>
-          <h3>Aluno ${i}</h3>
+          ${aluno.foto
+            ? `<img class="aluno-avatar" src="${aluno.foto}" alt="Foto de ${aluno.nome}"
+                onerror="this.outerHTML='<div class=\\'aluno-avatar\\'>${iniciais(aluno.nome)}</div>'">`
+            : `<div class="aluno-avatar">${iniciais(aluno.nome)}</div>`
+          }
+          <h3>${aluno.nome}</h3>
         </div>`;
-    }
+    });
   </script>
 
 </body>
