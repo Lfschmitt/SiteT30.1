@@ -6,6 +6,7 @@ const NAV_HTML = `
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Sobre a Turma</a></li>
       <li><a href="calendario.html">Calendário</a></li>
+      <li><a href="Avisos.html">Avisos</a></li>
       <li><a href="mapa-falta.html">Mapa de Faltas</a></li>
       <li><a href="noticias.html">Notícias</a></li>
       <li><a href="professores.html">Professores</a></li>
