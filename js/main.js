@@ -52,12 +52,10 @@ const MONTHS_PT = [
 
 const WEEKDAYS_PT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-// O objeto começa vazio e será preenchido pela planilha
 const EVENTS = {};
 
 let calYear, calMonth;
 
-// Adicione a URL da sua planilha aqui
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRV82EoR8cqthSYSblTOn5OhbS-eofQkoEhT4Yl9NenSW7eafWJsKSCUqbq1Rwo_AIuWPNxoZNkwky_/pub?output=csv'; 
 
 function initCalendar() {
@@ -93,14 +91,11 @@ function initCalendar() {
     renderCalendar();
   });
 
-  // Renderiza a estrutura vazia primeiro
   renderCalendar();
   
-  // Chama a função para buscar os dados na planilha
   carregarEventosDaPlanilha();
 }
 
-// === NOVA FUNÇÃO PARA BUSCAR E PROCESSAR OS DADOS ===
 async function carregarEventosDaPlanilha() {
   try {
     const finalURL = SHEET_URL + '&t=' + new Date().getTime();
@@ -134,7 +129,6 @@ async function carregarEventosDaPlanilha() {
 
 function processarCSVparaCalendario(dados) {
   dados.forEach(evento => {
-    // Pega a data da planilha
     const dataStr = evento['Data']?.trim(); 
     const materia = evento['Materia']?.trim() || 'Evento';
     const tipo = evento['Tipo']?.trim() || '';
@@ -142,18 +136,15 @@ function processarCSVparaCalendario(dados) {
     if (dataStr) {
       const partesData = dataStr.split('/');
       
-      // Agora o código aceita datas com 2 partes (DD/MM) ou 3 partes (DD/MM/YYYY)
       if (partesData.length >= 2) {
         const dia = parseInt(partesData[0], 10);
-        const mes = parseInt(partesData[1], 10) - 1; // JS conta meses de 0 a 11
+        const mes = parseInt(partesData[1], 10) - 1; 
         
-        // Se tiver o ano na planilha, ele usa. Se não tiver, usa o ano atual (ex: 2026).
         const ano = partesData.length === 3 ? parseInt(partesData[2], 10) : new Date().getFullYear();
         
         const chaveData = `${ano}-${mes}-${dia}`;
         const labelEvento = `${materia} ${tipo ? `(${tipo})` : ''}`;
 
-        // Adiciona ao objeto EVENTS. Se houver mais de um evento no dia, concatena.
         if (EVENTS[chaveData]) {
           EVENTS[chaveData] += ` | ${labelEvento}`;
         } else {
@@ -163,7 +154,6 @@ function processarCSVparaCalendario(dados) {
     }
   });
 
-  // Como os dados chegaram e foram processados, mandamos o calendário se desenhar de novo
   renderCalendar();
 }
 
@@ -191,7 +181,6 @@ function renderCalendar() {
       calMonth === today.getMonth() &&
       calYear === today.getFullYear();
       
-    // A chave montada aqui vai encontrar os dados que vieram da planilha
     const key = `${calYear}-${calMonth}-${d}`;
     const hasEvent = !!EVENTS[key];
     
