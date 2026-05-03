@@ -52,10 +52,11 @@ const MONTHS_PT = [
 
 const WEEKDAYS_PT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-// Placeholder events: { 'YYYY-M-D': 'label' }
 const EVENTS = {};
 
 let calYear, calMonth;
+
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRV82EoR8cqthSYSblTOn5OhbS-eofQkoEhT4Yl9NenSW7eafWJsKSCUqbq1Rwo_AIuWPNxoZNkwky_/pub?output=csv'; 
 
 function initCalendar() {
   const wrapper = document.getElementById('calendar');
@@ -91,6 +92,69 @@ function initCalendar() {
   });
 
   renderCalendar();
+  
+  carregarEventosDaPlanilha();
+}
+
+async function carregarEventosDaPlanilha() {
+  try {
+    const finalURL = SHEET_URL + '&t=' + new Date().getTime();
+    const resposta = await fetch(finalURL);
+    
+    if (!resposta.ok) throw new Error('Falha no fetch direto');
+    
+    const dadosTexto = await resposta.text();
+    Papa.parse(dadosTexto, {
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) { processarCSVparaCalendario(results.data); }
+    });
+
+  } catch (error) {
+    console.log("Erro no fetch direto, tentando proxy (igual na página de avisos)...");
+    const fallbackURL = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(SHEET_URL)}`;
+    
+    fetch(fallbackURL)
+      .then(res => res.text())
+      .then(texto => {
+        Papa.parse(texto, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) { processarCSVparaCalendario(results.data); }
+        });
+      })
+      .catch(err => console.error("Falha total ao carregar eventos no calendário.", err));
+  }
+}
+
+function processarCSVparaCalendario(dados) {
+  dados.forEach(evento => {
+    const dataStr = evento['Data']?.trim(); 
+    const materia = evento['Materia']?.trim() || 'Evento';
+    const tipo = evento['Tipo']?.trim() || '';
+
+    if (dataStr) {
+      const partesData = dataStr.split('/');
+      
+      if (partesData.length >= 2) {
+        const dia = parseInt(partesData[0], 10);
+        const mes = parseInt(partesData[1], 10) - 1; 
+        
+        const ano = partesData.length === 3 ? parseInt(partesData[2], 10) : new Date().getFullYear();
+        
+        const chaveData = `${ano}-${mes}-${dia}`;
+        const labelEvento = `${materia} ${tipo ? `(${tipo})` : ''}`;
+
+        if (EVENTS[chaveData]) {
+          EVENTS[chaveData] += ` | ${labelEvento}`;
+        } else {
+          EVENTS[chaveData] = labelEvento;
+        }
+      }
+    }
+  });
+
+  renderCalendar();
 }
 
 function renderCalendar() {
@@ -107,25 +171,25 @@ function renderCalendar() {
 
   let cells = '';
 
-  // Trailing days from previous month
   for (let i = firstDay - 1; i >= 0; i--) {
     cells += `<div class="cal-day other-month">${daysInPrev - i}</div>`;
   }
 
-  // Current month days
   for (let d = 1; d <= daysInMonth; d++) {
     const isToday =
       d === today.getDate() &&
       calMonth === today.getMonth() &&
       calYear === today.getFullYear();
+      
     const key = `${calYear}-${calMonth}-${d}`;
     const hasEvent = !!EVENTS[key];
+    
     const classes = ['cal-day', isToday && 'today', hasEvent && 'has-event']
       .filter(Boolean).join(' ');
+      
     cells += `<div class="${classes}" title="${hasEvent ? EVENTS[key] : ''}">${d}</div>`;
   }
 
-  // Leading days for next month
   const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
   for (let d = 1; d <= totalCells - firstDay - daysInMonth; d++) {
     cells += `<div class="cal-day other-month">${d}</div>`;
