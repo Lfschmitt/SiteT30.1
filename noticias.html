@@ -19,10 +19,34 @@
 
     <section>
       <div class="section-container">
-        <h2 class="section-title">Últimas Notícias</h2>
-        <div class="section-divider"></div>
-        <div id="noticias-container">
-          <div class="noticias-loading">Carregando notícias...</div>
+        <div class="noticias-layout">
+
+          <!-- Coluna principal: Notícias (~70%) -->
+          <div class="noticias-col-main">
+            <div class="painel-card">
+              <div class="painel-card-title">
+                <h2>Notícias</h2>
+                <div class="section-divider"></div>
+              </div>
+              <div id="noticias-container">
+                <div class="noticias-loading">Carregando notícias...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna lateral: Avisos (~30%) -->
+          <div class="noticias-col-side">
+            <div class="painel-card painel-card--avisos">
+              <div class="painel-card-title">
+                <h2>Avisos</h2>
+                <div class="section-divider"></div>
+              </div>
+              <div id="avisos-container">
+                <div class="noticias-loading">Carregando avisos...</div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -32,88 +56,7 @@
   <div id="footer"></div>
 
   <script src="js/main.js"></script>
-  <script>
-    // ID da planilha Google Sheets com as notícias
-    const SHEET_ID = '1AbGXKekO0YtUPDOxTi80yn8isZbS2n_4ANAwZujzAKs';
-    // Colunas esperadas na planilha (primeira linha = cabeçalho):
-    // titulo | data | categoria | resumo
-
-    const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
-
-    function parseCSV(text) {
-      const lines = text.trim().split('\n');
-      if (lines.length < 2) return [];
-      const headers = parseCSVRow(lines[0]);
-      return lines.slice(1).map(line => {
-        const values = parseCSVRow(line);
-        return headers.reduce((obj, h, i) => {
-          obj[h.trim().toLowerCase()] = (values[i] || '').trim();
-          return obj;
-        }, {});
-      }).filter(row => row.titulo);
-    }
-
-    function parseCSVRow(row) {
-      const result = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < row.length; i++) {
-        const ch = row[i];
-        if (ch === '"') {
-          if (inQuotes && row[i + 1] === '"') { current += '"'; i++; }
-          else inQuotes = !inQuotes;
-        } else if (ch === ',' && !inQuotes) {
-          result.push(current);
-          current = '';
-        } else {
-          current += ch;
-        }
-      }
-      result.push(current);
-      return result;
-    }
-
-    function formatDate(dateStr) {
-      if (!dateStr) return '';
-      const d = new Date(dateStr);
-      if (isNaN(d)) return dateStr;
-      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
-    }
-
-    function renderNoticias(noticias) {
-      const container = document.getElementById('noticias-container');
-      if (!noticias.length) {
-        container.innerHTML = '<div class="noticias-empty">Nenhuma notícia disponível no momento.</div>';
-        return;
-      }
-      container.innerHTML = `<div class="noticias-grid">${noticias.map(n => `
-        <article class="noticia-card">
-          <div class="noticia-card-header">
-            <span class="noticia-categoria">${n.categoria || 'Geral'}</span>
-          </div>
-          <div class="noticia-card-body">
-            <p class="noticia-data">${formatDate(n.data)}</p>
-            <h3>${n.titulo}</h3>
-            <p class="noticia-resumo">${n.resumo || ''}</p>
-          </div>
-        </article>`).join('')}
-      </div>`;
-    }
-
-    async function loadNoticias() {
-      const container = document.getElementById('noticias-container');
-      try {
-        const res = await fetch(SHEET_URL);
-        if (!res.ok) throw new Error('Erro na requisição');
-        const text = await res.text();
-        renderNoticias(parseCSV(text));
-      } catch {
-        container.innerHTML = '<div class="noticias-empty">Não foi possível carregar as notícias. Tente novamente mais tarde.</div>';
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', loadNoticias);
-  </script>
+  <script src="js/noticias.js"></script>
 
 </body>
 </html>
