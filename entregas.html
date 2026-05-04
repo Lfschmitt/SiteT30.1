@@ -402,14 +402,26 @@
     });
 
     document.getElementById('btnConfirmarSenha').addEventListener('click', () => {
-      if (inputSenha.value === '1234') {
-        telaSenha.classList.add('modal-hidden');
-        telaForm.classList.remove('modal-hidden');
-      } else {
-        erroSenha.textContent = 'Senha incorreta.';
-        inputSenha.value = '';
-        inputSenha.focus();
-      }
+      const SHEET_ID = '1NMdFBmpz2OqX3W7hoez1B3pilpkEdOXnpfHiI2phLjI';
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=senha`;
+      const digitada = inputSenha.value;
+
+      fetch(url)
+        .then(r => r.text())
+        .then(csv => {
+          const senhaCorreta = csv.split('\n')[0].split(',')[0].replace(/^"|"$/g, '').trim();
+          if (digitada === senhaCorreta) {
+            telaSenha.classList.add('modal-hidden');
+            telaForm.classList.remove('modal-hidden');
+          } else {
+            erroSenha.textContent = 'Senha incorreta.';
+            inputSenha.value = '';
+            inputSenha.focus();
+          }
+        })
+        .catch(() => {
+          erroSenha.textContent = 'Erro ao verificar senha. Tente novamente.';
+        });
     });
 
     inputSenha.addEventListener('keydown', (e) => {
