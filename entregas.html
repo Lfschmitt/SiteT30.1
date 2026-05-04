@@ -7,6 +7,137 @@
   <link rel="stylesheet" href="css/style.css" />
 
   <style>
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 32px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      position: relative;
+    }
+
+    .modal-title {
+      margin: 0 0 20px;
+      color: #2B4365;
+      font-size: 1.2rem;
+    }
+
+    .modal-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .modal-field label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .modal-field input,
+    .modal-field select,
+    .modal-field textarea {
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: #1e293b;
+      background: #f8fafc;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .modal-field input:focus,
+    .modal-field select:focus,
+    .modal-field textarea:focus {
+      border-color: #2B4365;
+    }
+
+    .modal-field textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .btn-modal-cancel {
+      padding: 8px 18px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #fff;
+      color: #475569;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-modal-primary {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 6px;
+      background: #2B4365;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .btn-modal-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .modal-error {
+      color: #dc2626;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      min-height: 18px;
+    }
+
+    .modal-success {
+      color: #16a34a;
+      font-size: 0.9rem;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .modal-hidden { display: none; }
+
+    /* Botão adicionar evento */
+    .btn-adicionar-evento {
+      padding: 8px 16px;
+      background: #2B4365;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-adicionar-evento:hover {
+      background: #1e3254;
+    }
+
     .aviso-card {
         background-color: #ffffff;
         border: 1px solid #e5e7eb;
@@ -84,7 +215,10 @@
 
     <section class="avisos-section">
       <div class="section-container">
-        <h2 class="section-title">Próximos Eventos</h2>
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:8px;">
+          <h2 class="section-title" style="margin:0;">Próximos Eventos</h2>
+          <button id="btnAdicionarEvento" class="btn-adicionar-evento">+ Adicionar Evento</button>
+        </div>
         <div class="section-divider"></div>
         
         <div class="avisos-grid" id="avisosGrid">
@@ -94,6 +228,61 @@
     </section>
 
   </main>
+
+  <!-- Modal Adicionar Evento -->
+  <div id="modalEvento" class="modal-overlay modal-hidden">
+    <div class="modal-box">
+
+      <!-- Tela 1: Senha -->
+      <div id="telaSenha">
+        <h3 class="modal-title">Acesso restrito</h3>
+        <div class="modal-field">
+          <label for="inputSenha">Senha</label>
+          <input type="password" id="inputSenha" placeholder="Digite a senha" />
+          <span class="modal-error" id="erroSenha"></span>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-modal-cancel" id="btnCancelarSenha">Cancelar</button>
+          <button class="btn-modal-primary" id="btnConfirmarSenha">Confirmar</button>
+        </div>
+      </div>
+
+      <!-- Tela 2: Formulário -->
+      <div id="telaForm" class="modal-hidden">
+        <h3 class="modal-title">Adicionar Evento</h3>
+        <div class="modal-field">
+          <label for="eventoData">Data</label>
+          <input type="date" id="eventoData" />
+        </div>
+        <div class="modal-field">
+          <label for="eventoMateria">Matéria</label>
+          <input type="text" id="eventoMateria" placeholder="Ex: ED, POO, BD..." />
+        </div>
+        <div class="modal-field">
+          <label for="eventoTipo">Tipo</label>
+          <select id="eventoTipo">
+            <option value="Prova">Prova</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Aviso">Aviso</option>
+          </select>
+        </div>
+        <div class="modal-field">
+          <label for="eventoHorario">Horário</label>
+          <input type="text" id="eventoHorario" placeholder="Ex: 19h30" />
+        </div>
+        <div class="modal-field">
+          <label for="eventoDescricao">Descrição</label>
+          <textarea id="eventoDescricao" placeholder="Detalhes do evento..."></textarea>
+        </div>
+        <div id="feedbackEvento"></div>
+        <div class="modal-actions">
+          <button class="btn-modal-cancel" id="btnCancelarForm">Cancelar</button>
+          <button class="btn-modal-primary" id="btnSalvarEvento">Salvar Evento</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <div id="footer"></div>
 
@@ -177,6 +366,103 @@
     }
 
     carregarAvisos();
+    </script>
+
+    <script>
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGIlZXADiRjqVFZQVo5xCNyWRGfRTmmbqpjUhtcGZyUlzRipnNH-UXLF1r2_83Velq-g/exec';
+
+    const modal         = document.getElementById('modalEvento');
+    const telaSenha     = document.getElementById('telaSenha');
+    const telaForm      = document.getElementById('telaForm');
+    const inputSenha    = document.getElementById('inputSenha');
+    const erroSenha     = document.getElementById('erroSenha');
+    const feedbackEvento = document.getElementById('feedbackEvento');
+    const btnSalvar     = document.getElementById('btnSalvarEvento');
+
+    function abrirModal() {
+      telaSenha.classList.remove('modal-hidden');
+      telaForm.classList.add('modal-hidden');
+      inputSenha.value = '';
+      erroSenha.textContent = '';
+      feedbackEvento.textContent = '';
+      modal.classList.remove('modal-hidden');
+      inputSenha.focus();
+    }
+
+    function fecharModal() {
+      modal.classList.add('modal-hidden');
+    }
+
+    document.getElementById('btnAdicionarEvento').addEventListener('click', abrirModal);
+    document.getElementById('btnCancelarSenha').addEventListener('click', fecharModal);
+    document.getElementById('btnCancelarForm').addEventListener('click', fecharModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) fecharModal();
+    });
+
+    document.getElementById('btnConfirmarSenha').addEventListener('click', () => {
+      if (inputSenha.value === '1234') {
+        telaSenha.classList.add('modal-hidden');
+        telaForm.classList.remove('modal-hidden');
+      } else {
+        erroSenha.textContent = 'Senha incorreta.';
+        inputSenha.value = '';
+        inputSenha.focus();
+      }
+    });
+
+    inputSenha.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('btnConfirmarSenha').click();
+    });
+
+    btnSalvar.addEventListener('click', async () => {
+      const data      = document.getElementById('eventoData').value;
+      const materia   = document.getElementById('eventoMateria').value.trim();
+      const tipo      = document.getElementById('eventoTipo').value;
+      const horario   = document.getElementById('eventoHorario').value.trim();
+      const descricao = document.getElementById('eventoDescricao').value.trim();
+
+      if (!data || !materia) {
+        feedbackEvento.innerHTML = '<span style="color:#dc2626;font-size:.85rem;">Preencha pelo menos Data e Matéria.</span>';
+        return;
+      }
+
+      // Formatar data para DD/MM/YYYY (padrão da planilha)
+      const [ano, mes, dia] = data.split('-');
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+
+      btnSalvar.disabled = true;
+      btnSalvar.textContent = 'Salvando...';
+      feedbackEvento.textContent = '';
+
+      const payload = {
+        sheetName: 'entregaveis',
+        Data: dataFormatada,
+        Materia: materia,
+        Tipo: tipo,
+        Horario: horario || 'Não definido',
+        Descricao: descricao,
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams(payload),
+        });
+        feedbackEvento.innerHTML = '<span class="modal-success">Evento adicionado com sucesso!</span>';
+        setTimeout(() => {
+          fecharModal();
+          carregarAvisos();
+        }, 1500);
+      } catch {
+        feedbackEvento.innerHTML = '<span style="color:#dc2626;font-size:.85rem;">Erro ao salvar. Verifique sua conexão.</span>';
+      } finally {
+        btnSalvar.disabled = false;
+        btnSalvar.textContent = 'Salvar Evento';
+      }
+    });
     </script>
 </body>
 </html>
