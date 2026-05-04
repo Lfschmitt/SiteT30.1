@@ -5,6 +5,240 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>T30.1 — Mapa Falta</title>
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    
+    :root {
+      --navy: #1a2e4c;
+      --navy-light: #243d63;
+      --navy-dark: #111e32;
+      --accent: #4a9eff;
+      --accent-dim: #2d7dd6;
+      --gray-bg: #f4f6f9;
+      --gray-card: #ffffff;
+      --gray-border: #e2e8f0;
+      --gray-mid: #94a3b8;
+      --gray-text: #334155;
+      --green: #22c55e;
+      --green-bg: #f0fdf4;
+      --green-text: #166534;
+      --yellow: #f59e0b;
+      --yellow-bg: #fffbeb;
+      --yellow-text: #92400e;
+      --red: #ef4444;
+      --red-bg: #fef2f2;
+      --red-text: #991b1b;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.05);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--gray-bg);
+      color: var(--gray-text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────── */
+    .page-header {
+      background: var(--navy);
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -.5px;
+    }
+    .page-header p {
+      margin-top: .4rem;
+      font-size: .95rem;
+      color: rgba(255,255,255,.55);
+    }
+
+    /* ── Main ────────────────────────────────────────── */
+    .main {
+      max-width: 960px;
+      margin: 5 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    /* ── Summary bar ─────────────────────────────────── */
+    .summary {
+      display: grid;
+      margin: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .stat {
+      background: var(--gray-card);
+      border: 1px solid var(--gray-border);
+      border-radius: var(--radius-sm);
+      padding: .9rem 1rem;
+      box-shadow: var(--shadow);
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-value.ok   { color: var(--green); }
+    .stat-value.warn { color: var(--yellow); }
+    .stat-value.bad  { color: var(--red); }
+    .stat-value.navy { color: var(--navy); }
+
+    /* ── Grid de cards ───────────────────────────────── */
+    .grid {
+      display: grid;
+      margin: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--gray-card);
+      border: 1px solid var(--gray-border);
+      border-left: 4px solid var(--green);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.15rem;
+      box-shadow: var(--shadow);
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.1); }
+    .card.risk-mid  { border-left-color: var(--yellow); }
+    .card.risk-high { border-left-color: var(--red); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .9rem;
+    }
+    .materia-nome {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .badge-low  { background: var(--green-bg);  color: var(--green-text); }
+    .badge-mid  { background: var(--yellow-bg); color: var(--yellow-text); }
+    .badge-high { background: var(--red-bg);    color: var(--red-text); }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: .55rem;
+    }
+    .info-item { font-size: 12px; color: var(--gray-mid); }
+    .info-item span { display: block; font-size: 13px; font-weight: 600; color: var(--gray-text); }
+
+    .bar-bg {
+      background: var(--gray-bg);
+      border-radius: 99px;
+      height: 6px;
+      margin-bottom: .9rem;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--green);
+      transition: width .35s ease, background .35s;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gray-border);
+      background: var(--gray-bg);
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      transition: background .15s, border-color .15s, transform .1s;
+      line-height: 1;
+      user-select: none;
+    }
+    .btn:hover:not(:disabled) {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+    .btn:active:not(:disabled) { transform: scale(.92); }
+    .btn:disabled { opacity: .3; cursor: default; }
+
+    .count {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      min-width: 32px;
+      text-align: center;
+    }
+
+    /* ── Footer actions ──────────────────────────────── */
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+    }
+    .btn-reset {
+      font-size: .85rem;
+      padding: .45rem 1.1rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--gray-border);
+      background: var(--gray-card);
+      color: var(--gray-text);
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+      margin: 2rem;
+    }
+    .btn-reset:hover {
+      background: var(--red-bg);
+      border-color: var(--red);
+      color: var(--red-text);
+    }
+
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .card { padding: .85rem .9rem; }
+    }
+    @media (max-width: 340px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  
+  </style>
+
+
 </head>
 <body>
 
