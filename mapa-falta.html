@@ -18,18 +18,184 @@
       <p>Acompanhamento de faltas por aluno e disciplina</p>
     </div>
 
-    <!-- PLACEHOLDER -->
-    <div class="placeholder-section">
-      <div class="placeholder-box">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <path d="M16 2v4M8 2v4M3 10h18"/>
-          <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
-        </svg>
-        <h2>Em construção</h2>
-        <p>O mapa de faltas será implementado em breve.</p>
-      </div>
+    <div class="summary" id="summary">
+        <div class="stat">
+          <div class="stat-label">Total de faltas</div>
+          <div class="stat-value navy">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Matérias OK</div>
+          <div class="stat-value ok">8</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Em atenção</div>
+          <div class="stat-value warn">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Em risco crítico</div>
+          <div class="stat-value bad">0</div>
+        </div>
     </div>
+
+    <div class="grid" id="grid">
+        <div class="card risk-low" id="card-CES-10">
+          <div class="card-top">
+            <span class="materia-nome">CES-10</span>
+            <span class="badge badge-low" id="badge-CES-10">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-CES-10">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 15<span id="rest-CES-10">15 restantes</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-CES-10" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+          <div class="controls">
+            <button class="btn btn-minus" id="minus-CES-10" onclick="change('CES-10',-1)" disabled="">−</button>
+            <span class="count" id="count-CES-10">0</span>
+            <button class="btn btn-plus" id="plus-CES-10" onclick="change('CES-10', 1)">+</button>
+          </div>
+        </div>
+      
+        <div class="card risk-low" id="card-FND-01">
+          <div class="card-top">
+            <span class="materia-nome">FND-01</span>
+            <span class="badge badge-low" id="badge-FND-01">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-FND-01">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 5<span id="rest-FND-01">5 restantes</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-FND-01" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+          <div class="controls">
+            <button class="btn btn-minus" id="minus-FND-01" onclick="change('FND-01',-1)" disabled="">−</button>
+            <span class="count" id="count-FND-01">0</span>
+            <button class="btn btn-plus" id="plus-FND-01" onclick="change('FND-01', 1)">+</button>
+          </div>
+        </div>
+      
+        <div class="card risk-low" id="card-HUM-01">
+          <div class="card-top">
+            <span class="materia-nome">HUM-01</span>
+            <span class="badge badge-low" id="badge-HUM-01">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-HUM-01">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 8<span id="rest-HUM-01">8 restantes</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-HUM-01" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+          <div class="controls">
+            <button class="btn btn-minus" id="minus-HUM-01" onclick="change('HUM-01',-1)" disabled="">−</button>
+            <span class="count" id="count-HUM-01">0</span>
+            <button class="btn btn-plus" id="plus-HUM-01" onclick="change('HUM-01', 1)">+</button>
+          </div>
+        </div>
+      
+        <div class="card risk-low" id="card-MAT-13">
+          <div class="card-top">
+            <span class="materia-nome">MAT-13</span>
+            <span class="badge badge-low" id="badge-MAT-13">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-MAT-13">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 10<span id="rest-MAT-13">10 restantes</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-MAT-13" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+          <div class="controls">
+            <button class="btn btn-minus" id="minus-MAT-13" onclick="change('MAT-13',-1)" disabled="">−</button>
+            <span class="count" id="count-MAT-13">0</span>
+            <button class="btn btn-plus" id="plus-MAT-13" onclick="change('MAT-13', 1)">+</button>
+          </div>
+        </div>
+      
+        <div class="card risk-low" id="card-MAT-15">
+          <div class="card-top">
+            <span class="materia-nome">MAT-15</span>
+            <span class="badge badge-low" id="badge-MAT-15">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-MAT-15">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 5<span id="rest-MAT-15">5 restantes</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-MAT-15" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+          <div class="controls">
+            <button class="btn btn-minus" id="minus-MAT-15" onclick="change('MAT-15',-1)" disabled="">−</button>
+            <span class="count" id="count-MAT-15">0</span>
+            <button class="btn btn-plus" id="plus-MAT-15" onclick="change('MAT-15', 1)">+</button>
+          </div>
+        </div>
+      
+        <div class="card risk-low" id="card-MAT-17">
+          <div class="card-top">
+            <span class="materia-nome">MAT-17</span>
+            <span class="badge badge-low" id="badge-MAT-17">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-MAT-17">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 5<span id="rest-MAT-17">5 restantes</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-MAT-17" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+          <div class="controls">
+            <button class="btn btn-minus" id="minus-MAT-17" onclick="change('MAT-17',-1)" disabled="">−</button>
+            <span class="count" id="count-MAT-17">0</span>
+            <button class="btn btn-plus" id="plus-MAT-17" onclick="change('MAT-17', 1)">+</button>
+          </div>
+        </div>
+      
+        <div class="card risk-low" id="card-MTP-03">
+          <div class="card-top">
+            <span class="materia-nome">MTP-03</span>
+            <span class="badge badge-low" id="badge-MTP-03">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-MTP-03">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 5<span id="rest-MTP-03">5 restantes</span>
+            </div>
+          </div>
+          <div class="bar-bg"><div class="bar-fill" id="bar-MTP-03" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+          <div class="controls">
+            <button class="btn btn-minus" id="minus-MTP-03" onclick="change('MTP-03',-1)" disabled="">−</button>
+            <span class="count" id="count-MTP-03">0</span>
+            <button class="btn btn-plus" id="plus-MTP-03" onclick="change('MTP-03', 1)">+</button>
+          </div>
+        </div>
+      
+        <div class="card risk-low" id="card-QUI-18">
+          <div class="card-top">
+            <span class="materia-nome">QUI-18</span>
+            <span class="badge badge-low" id="badge-QUI-18">OK</span>
+          </div>
+          <div class="info-row">
+            <div class="info-item">% das aulas<span id="pct-QUI-18">0.0% das aulas</span></div>
+            <div class="info-item" style="text-align:right">
+              Limite: 12<span id="rest-QUI-18">12 restantes</span>
+          </div>
+          </div>
+            <div class="bar-bg"><div class="bar-fill" id="bar-QUI-18" style="width: 0%; background: rgb(34, 197, 94);"></div></div>
+            <div class="controls">
+              <button class="btn btn-minus" id="minus-QUI-18" onclick="change('QUI-18',-1)" disabled="">−</button>
+              <span class="count" id="count-QUI-18">0</span>
+              <button class="btn btn-plus" id="plus-QUI-18" onclick="change('QUI-18', 1)">+</button>
+            </div>
+          </div>
+       </div>
+
+
+    <div class="actions">
+      <button class="btn-reset" onclick="resetAll()">Zerar todas as faltas</button>
+    </div>
+
 
   </main>
 
@@ -39,3 +205,4 @@
 
 </body>
 </html>
+
