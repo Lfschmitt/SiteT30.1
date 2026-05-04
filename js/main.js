@@ -56,7 +56,7 @@ const EVENTS = {};
 
 let calYear, calMonth;
 
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRV82EoR8cqthSYSblTOn5OhbS-eofQkoEhT4Yl9NenSW7eafWJsKSCUqbq1Rwo_AIuWPNxoZNkwky_/pub?output=csv'; 
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1NMdFBmpz2OqX3W7hoez1B3pilpkEdOXnpfHiI2phLjI/gviz/tq?tqx=out:csv&sheet=entregaveis';
 
 function initCalendar() {
   const wrapper = document.getElementById('calendar');
